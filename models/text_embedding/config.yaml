@@ -1,0 +1,4 @@
+hf_model_name: "sentence-transformers/all-MiniLM-L6-v2"
+max_seq_len: 256
+normalize: true
+opset: 11

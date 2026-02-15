@@ -1,0 +1,37 @@
+# TensorRT build configuration for text embedding model
+
+model_name: "text_embedding"
+onnx_path: "../onnx_models/text_embedding/1/model.onnx"
+engine_path: "../tensorrt/engines/text_embedding/1/model.plan"
+
+build_config:
+  # Memory configuration (MB)
+  max_workspace_size: 4096
+  
+  # Precision settings
+  fp16: true
+  int8: false
+  
+  # Optimization settings
+  optimization_level: 5
+  
+  # Dynamic batching configuration
+  dynamic_shapes:
+    input_ids:
+      min: [1, 1]
+      opt: [8, 512] 
+      max: [64, 512]
+    attention_mask:
+      min: [1, 1]
+      opt: [8, 512]
+      max: [64, 512]
+
+# Triton deployment settings
+triton_config:
+  max_batch_size: 64
+  instance_group:
+    - count: 1
+      kind: "KIND_GPU"
+  dynamic_batching:
+    preferred_batch_size: [8, 16, 32]
+    max_queue_delay_microseconds: 100

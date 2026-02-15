@@ -1,0 +1,95 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.venv*/
+venv*/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints
+*.ipynb_checkpoints
+
+# Model weights and generated files
+models/*/weights/
+*.pth
+*.pt
+*.bin
+*.safetensors
+
+# ONNX models (generated)
+onnx_models/*/1/
+onnx_models/*/*.onnx
+!onnx_models/*/.gitkeep
+
+# TensorRT engines (generated)
+tensorrt/engines/*/
+*.plan
+*.engine
+!tensorrt/engines/.gitkeep
+
+# Triton model repository (generated artifacts)
+triton_serve/*/1/model.*
+!triton_serve/*/config.pbtxt
+
+# Logs and temporary files
+*.log
+logs/
+temp_*.txt
+tmp/
+
+# Data files
+data/
+datasets/
+*.csv
+*.json
+*.jsonl
+
+# Benchmark results
+benchmarks/results/
+benchmarks/logs/
+
+# Configuration with secrets
+.env*
+config.local.*
+.secrets
+
+# Cache
+.cache/
+__cache__/
+
+# Command remnants and artifacts
+=*
+*=*
+temp_requirements.txt

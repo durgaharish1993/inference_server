@@ -1,0 +1,32 @@
+name: "vision"
+platform: "tensorrt_plan"
+max_batch_size: 32
+version_policy { all { }}
+
+input [
+  {
+    name: "images"
+    data_type: TYPE_FP32
+    dims: [ 3, 224, 224 ]
+  }
+]
+
+output [
+  {
+    name: "features"
+    data_type: TYPE_FP32
+    dims: [ 2048 ]
+  }
+]
+
+instance_group [
+  {
+    count: 1
+    kind: KIND_GPU
+  }
+]
+
+dynamic_batching {
+  preferred_batch_size: [ 4, 8, 16 ]
+  max_queue_delay_microseconds: 50
+}

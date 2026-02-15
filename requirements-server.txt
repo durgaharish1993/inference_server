@@ -1,0 +1,31 @@
+# Requirements for inference server
+# FastAPI and web server
+fastapi>=0.109.0,<0.112.0
+uvicorn[standard]>=0.27.0
+python-multipart>=0.0.6
+starlette>=0.35.0
+
+# Core dependencies
+pillow>=10.0.0
+numpy>=1.24.0,<1.27.0
+pydantic>=2.5.0,<2.8.0
+
+# Triton client for inference
+tritonclient[all]>=2.42.0
+
+# Security and authentication
+python-jose[cryptography]>=3.3.0
+passlib[bcrypt]>=1.7.4
+
+# HTTP and async
+aiohttp>=3.9.0
+requests>=2.31.0
+httpx>=0.26.0
+
+# Monitoring and messaging
+prometheus-client>=0.19.0
+asyncio-mqtt>=0.16.0
+
+# Utilities
+pyyaml>=6.0.0
+typing-extensions>=4.8.0

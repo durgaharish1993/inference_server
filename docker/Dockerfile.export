@@ -1,0 +1,43 @@
+# Dockerfile for ONNX model export
+FROM pytorch/pytorch:2.1.0-cuda11.8-cudnn8-devel
+
+# Set working directory
+WORKDIR /workspace
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    wget \
+    curl \
+    vim \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies
+COPY requirements-export.txt .
+RUN pip install --no-cache-dir -r requirements-export.txt
+
+# Install additional ML libraries
+RUN pip install --no-cache-dir \
+    transformers \
+    accelerate \
+    datasets \
+    tokenizers \
+    sentencepiece \
+    protobuf \
+    onnx \
+    onnxruntime-gpu \
+    optimum[onnxruntime-gpu] \
+    torchvision \
+    torchaudio
+
+# Copy source code
+COPY models/ ./models/
+COPY export/ ./export/
+COPY onnx_models/ ./onnx_models/
+
+# Set environment variables
+ENV PYTHONPATH=/workspace
+ENV CUDA_VISIBLE_DEVICES=0
+
+# Default command
+CMD ["bash"]

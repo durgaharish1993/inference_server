@@ -1,0 +1,33 @@
+# Requirements for ONNX model export
+# PyTorch for NVIDIA Grace Blackwell (ARM + NVIDIA GPU)
+# Note: Use NVIDIA PyTorch container or install via: pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+# torch>=2.1.0,<2.4.0
+# torchvision>=0.16.0,<0.19.0
+# torchaudio>=2.1.0,<2.4.0
+
+# NVIDIA optimizations # NVIDIA optimizations for Grace Blackwell
+nvidia-ml-py>=12.555.0
+cupy-cuda12x>=13.0.0
+
+# Transformers and model libraries (ARM + Python 3.11 optimized)
+transformers>=4.35.0,<4.45.0
+accelerate>=0.25.0,<0.35.0
+datasets>=2.15.0,<2.21.0
+tokenizers>=0.15.0,<0.20.0
+sentence-transformers>=2.5.0,<3.1.0
+sentencepiece>=0.1.99
+
+# ONNX and runtime (NVIDIA GPU + ARM support)
+onnx>=1.15.0,<1.17.0
+onnxruntime-gpu>=1.16.0,<1.18.0
+onnxscript>=0.1.0
+optimum[onnxruntime-gpu]>=1.17.0,<1.22.0
+
+# Core dependencies (ARM + Python 3.11 compatible)
+numpy>=1.24.0,<1.27.0
+pillow>=10.0.0,<11.0.0
+protobuf>=3.20.0,<5.0.0
+pyyaml>=6.0.0
+tqdm>=4.65.0
+huggingface-hub>=0.20.0,<0.25.0
+safetensors>=0.4.0,<0.5.0

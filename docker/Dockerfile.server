@@ -1,0 +1,44 @@
+# Dockerfile for inference server with Triton
+FROM nvcr.io/nvidia/tritonserver:23.10-py3
+
+# Set working directory
+WORKDIR /workspace
+
+# Install additional Python packages for custom server
+RUN pip3 install --no-cache-dir \
+    fastapi \
+    uvicorn \
+    python-multipart \
+    pillow \
+    numpy \
+    tritonclient[all] \
+    pydantic \
+    python-jose \
+    passlib
+
+# Copy server code
+COPY server/ ./server/
+COPY triton_serve/ ./triton_serve/
+
+# Copy requirements
+COPY requirements-server.txt .
+RUN pip3 install --no-cache-dir -r requirements-server.txt
+
+# Set environment variables
+ENV PYTHONPATH=/workspace
+ENV TRITON_URL=localhost:8001
+ENV PORT=8000
+ENV HOST=0.0.0.0
+
+# Expose ports
+EXPOSE 8000 8001 8002
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+    CMD curl -f http://localhost:8000/health || exit 1
+
+# Start script
+COPY docker/start-server.sh /start-server.sh
+RUN chmod +x /start-server.sh
+
+CMD ["/start-server.sh"]

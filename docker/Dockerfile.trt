@@ -1,0 +1,46 @@
+# Dockerfile for TensorRT engine building
+FROM nvcr.io/nvidia/tensorrt:23.10-py3
+
+# Set working directory
+WORKDIR /workspace
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    python3-pip \
+    git \
+    wget \
+    curl \
+    vim \
+    && rm -rf /var/lib/apt/lists/*
+
+# Upgrade pip
+RUN pip3 install --upgrade pip
+
+# Install Python dependencies
+COPY requirements-tensorrt.txt .
+RUN pip3 install --no-cache-dir -r requirements-tensorrt.txt
+
+# Install TensorRT Python bindings and related packages
+RUN pip3 install --no-cache-dir \
+    pycuda \
+    tensorrt \
+    onnx \
+    onnx-graphsurgeon \
+    polygraphy \
+    colored \
+    onnxruntime-gpu
+
+# Copy source code
+COPY tensorrt/ ./tensorrt/
+COPY onnx_models/ ./onnx_models/
+
+# Set environment variables
+ENV PYTHONPATH=/workspace
+ENV CUDA_VISIBLE_DEVICES=0
+ENV TRT_LOGGER_LEVEL=WARNING
+
+# Create directories for engines
+RUN mkdir -p tensorrt/engines
+
+# Default command
+CMD ["python3", "tensorrt/build_engine.py", "--help"]

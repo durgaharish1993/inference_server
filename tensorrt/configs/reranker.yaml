@@ -1,0 +1,41 @@
+# TensorRT build configuration for reranker model
+
+model_name: "reranker"
+onnx_path: "../onnx_models/reranker/1/model.onnx"
+engine_path: "../tensorrt/engines/reranker/1/model.plan"
+
+build_config:
+  # Memory configuration (MB)
+  max_workspace_size: 4096
+  
+  # Precision settings
+  fp16: true
+  int8: false
+  
+  # Optimization settings
+  optimization_level: 5
+  
+  # Dynamic batching configuration
+  dynamic_shapes:
+    input_ids:
+      min: [1, 1]
+      opt: [8, 512]
+      max: [32, 512]
+    attention_mask:
+      min: [1, 1] 
+      opt: [8, 512]
+      max: [32, 512]
+    token_type_ids:
+      min: [1, 1]
+      opt: [8, 512]
+      max: [32, 512]
+
+# Triton deployment settings
+triton_config:
+  max_batch_size: 32
+  instance_group:
+    - count: 1
+      kind: "KIND_GPU"
+  dynamic_batching:
+    preferred_batch_size: [4, 8, 16]
+    max_queue_delay_microseconds: 100
